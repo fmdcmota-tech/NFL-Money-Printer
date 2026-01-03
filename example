@@ -1,0 +1,24 @@
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+import nflreadpy as nfl
+from nflreadpy import load_pbp, load_team_stats
+years = list(range(2015, 2026))
+team_stats_polars = nfl.load_team_stats(seasons=years)
+team_stats = team_stats_polars.to_pandas()
+
+def canonical(x):
+    x = str(x).lower()
+    if "falcon" in x or x.startswith("atl"):
+        return "Atlanta Falcons"
+    if "buc" in x or "tampa" in x or x.startswith("tb"):
+        return "Tampa Bay Buccaneers"
+    return None
+
+team_stats["team_full"] = team_stats["team"].apply(canonical)
+team_stats = team_stats[team_stats["team_full"].notna()]
+
+sched_polars = nfl.load_schedules(seasons=years)
+sched = sched_polars.to_pandas()
+
+print(sched)
