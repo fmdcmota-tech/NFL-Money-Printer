@@ -92,5 +92,3 @@ B_prob = model.predict_proba(scaler.transform([B.to_numpy().flatten().tolist()])
 print("TEAM_A win probability:", A_prob)
 print("TEAM_B win probability:", B_prob)
 
-print("Falcons win probability:", A_prob)
-print("Buccaneers win probability:", B_prob)
